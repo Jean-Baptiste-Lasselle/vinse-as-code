@@ -65,7 +65,18 @@ region = us-east-1
 ```
 * Création du stockage cloud de vinse :
 ```bash
-ccc
+export NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+export NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
+export NO_PORT_RESEAU_OSS_S3RVER=8003
+export BUCKET_TO_UPLOAD_TO=cloudvinse
+export URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OSS_S3RVER
+
+
+aws s3 ls --endpoint-url=$URL_APPEL_API_ENDPOINT
+echo "creation deu 'bucket' [$BUCKET_TO_UPLOAD_TO] "
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 mb s3://$BUCKET_TO_UPLOAD_TO || exit 1
+
+
 ```
 
 
