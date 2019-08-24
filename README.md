@@ -10,3 +10,113 @@ mystery
   * `vinse-merge` (pour commencer à travailler sur un repo)
   * `vinse-stop` (pour terminer, avec une option discard, ou alor sun dernier commit & push) à travailler sur un repo)
   * gestion de ses paires de clés publiques privées, intégée à hashicorp vault.
+
+
+# Clouydie ow
+
+### Installation
+ 
+```bash
+# TODO: https://gist.github.com/anamorph/aaf8434d3bbad92059b3
+sudo apt-get install -y python python-pip
+sudo pip install awscli
+# en raison de l'issue https://github.com/aws/aws-cli/issues/3579 , il 
+# faut mettre à jour la CLI `aws` avec :
+pip install awscli==1.16.14
+
+###
+# !!!! ATTENTION aux update / upgrade AWSCLI : 
+# 
+# -- Bon, j'ai essayé une version au-dessus de [1.16.14], mais 
+#    on a une régression de la CLI AWS : 
+#  > Avec la version [pip install awscli==1.16.14], j'ai un
+#  succès.
+#  > Par contre, avec la version [pip install awscli==1.16.225] 
+#    j'ai une régression avec le retour de l'erreur avec
+#    les commandes [aws s3 sync] cf. [./dossier_cloud_jbl]
+# 
+
+###
+# puis il faut configurer la AWS CLI 
+echo "Now we'll configure the AWS CLI"
+read -p "Press any key to configure the AWS CLI" AWSCLICONF
+
+aws configure
+# the [aws configure] command will create the conf files : 
+ls -allh ~/.aws/
+cat ~/.aws/config
+cat ~/.aws/credentials
+aws version
+
+```
+
+### Configuration
+
+* fichier de configuration authentification `~/.aws/credentials` (devra êtree géré par HashiCorp Vault Secret Manager / et un truc genre `Keepass2`) : 
+```ini
+[default]
+aws_access_key_id = accessKey1
+aws_secret_access_key = verySecretKey1
+```
+* fichier de configuration d'exécution `~/.aws/config`
+```ini
+[default]
+region = us-east-1
+```
+* Création du stockage cloud de vinse :
+```bash
+ccc
+```
+
+
+# Utilisation
+
+
+```bash
+export NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+export NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
+export NO_PORT_RESEAU_OSS_S3RVER=8003
+export BUCKET_TO_UPLOAD_TO=cloudvinse
+export URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OSS_S3RVER
+
+# 
+# -- preparing local directory synced to 
+#    my private object storage service : 
+# 
+mkdir ./$NOM_DOSSIER_CLOUD
+
+
+###
+# 
+# -- syncing
+# 
+
+# -- adding a new file in synced dir
+
+cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+
+# -- syncing to cloud
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+
+# -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+
+
+
+# -- adding a new file in synced dir AGAIN
+
+cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+
+# -- syncing to cloud
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+
+# -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+
+
+
+```
