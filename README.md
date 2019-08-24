@@ -50,6 +50,13 @@ aws version
 
 ```
 
+* Installation Windows 10 : passer par l'installation de python, pip, et installer avec un pip install, cf. https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html#awscli-install-windows-pip
+
+```bash
+# TODO
+
+```
+
 ### Configuration
 
 * fichier de configuration authentification `~/.aws/credentials` (devra êtree géré par HashiCorp Vault Secret Manager / et un truc genre `Keepass2`) : 
