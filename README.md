@@ -67,6 +67,7 @@ dir %PYHTON_INSTALLATION_HOME%
 pip install awscli==1.16.14
 
 ```
+
 ### Configuration
 
 * fichier de configuration authentification `~/.aws/credentials` (devra êtree géré par HashiCorp Vault Secret Manager / et un truc genre `Keepass2`) : 
@@ -80,7 +81,8 @@ aws_secret_access_key = verySecretKey1
 [default]
 region = us-east-1
 ```
-* Création du stockage cloud de vinse :
+* Création du stockage cloud de vinse : 
+  * debian stretch GNU / Linux : 
 ```bash
 export NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
 export NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
@@ -92,10 +94,21 @@ export URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU
 aws s3 ls --endpoint-url=$URL_APPEL_API_ENDPOINT
 echo "creation deu 'bucket' [$BUCKET_TO_UPLOAD_TO] "
 aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 mb s3://$BUCKET_TO_UPLOAD_TO || exit 1
+```
+  * Windows 10+ : 
+```bash
+set NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+set NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
+set NO_PORT_RESEAU_OSS_S3RVER=8003
+set BUCKET_TO_UPLOAD_TO=cloudvinse
+set URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OSS_S3RVER
 
+
+aws s3 ls --endpoint-url=%URL_APPEL_API_ENDPOINT%
+echo "creation deu 'bucket' [%BUCKET_TO_UPLOAD_TO%] "
+aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 mb s3://%BUCKET_TO_UPLOAD_TO% || exit 1
 
 ```
-
 
 # Utilisation
 
@@ -148,3 +161,55 @@ aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
 
 
 ```
+
+  * Windows 10+ : 
+```bash
+set NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+set NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
+set NO_PORT_RESEAU_OSS_S3RVER=8003
+set BUCKET_TO_UPLOAD_TO=cloudvinse
+set URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OSS_S3RVER
+
+
+
+# 
+# -- preparing local directory synced to 
+#    my private object storage service : 
+# 
+mkdir ./$NOM_DOSSIER_CLOUD
+
+
+###
+# 
+# -- syncing
+# 
+
+# -- adding a new file in synced dir
+
+cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+
+# -- syncing to cloud
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+
+# -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+
+
+
+# -- adding a new file in synced dir AGAIN
+
+cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+
+# -- syncing to cloud
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+
+# -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
+
+aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+
+
+```
+
