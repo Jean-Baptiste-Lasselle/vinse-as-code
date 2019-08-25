@@ -56,7 +56,14 @@ aws version
 # TODO
 
 ```
+* avec chocolatey, installer python 3 : 
 
+```MSDOS
+set PYHTON_INSTALLATION_HOME=C:\your\install\path
+choco install python3 --params "/InstallDir:%PYHTON_INSTALLATION_HOME%"
+pip install awscli==1.16.14
+
+```
 ### Configuration
 
 * fichier de configuration authentification `~/.aws/credentials` (devra êtree géré par HashiCorp Vault Secret Manager / et un truc genre `Keepass2`) : 
