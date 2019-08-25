@@ -22,7 +22,7 @@ sudo apt-get install -y python python-pip
 sudo pip install awscli
 # en raison de l'issue https://github.com/aws/aws-cli/issues/3579 , il 
 # faut mettre à jour la CLI `aws` avec :
-py -m pip install awscli==1.16.14
+pip install awscli==1.16.14
 
 ###
 # !!!! ATTENTION aux update / upgrade AWSCLI : 
