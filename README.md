@@ -172,7 +172,7 @@ set URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OS
 # -- preparing local directory synced to 
 #    my private object storage service : 
 # 
-mkdir ./$NOM_DOSSIER_CLOUD
+mkdir ./%NOM_DOSSIER_CLOUD%
 
 
 ###
@@ -182,29 +182,29 @@ mkdir ./$NOM_DOSSIER_CLOUD
 
 # -- adding a new file in synced dir
 
-cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+cp *l*.* | grep -v 'g' ./%NOM_DOSSIER_CLOUD%
 
 # -- syncing to cloud
 
-aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 sync "%NOM_DOSSIER_CLOUD%/" "s3://%BUCKET_TO_UPLOAD_TO%"
 
 # -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
 
-aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 ls "s3://%BUCKET_TO_UPLOAD_TO%"
 
 
 
 # -- adding a new file in synced dir AGAIN
 
-cp *l*.* | grep -v 'g' ./$NOM_DOSSIER_CLOUD
+cp *l*.* | grep -v 'g' ./%NOM_DOSSIER_CLOUD%
 
 # -- syncing to cloud
 
-aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 sync "$NOM_DOSSIER_CLOUD/" "s3://$BUCKET_TO_UPLOAD_TO"
+aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 sync "%NOM_DOSSIER_CLOUD%/" "s3://%BUCKET_TO_UPLOAD_TO%"
 
 # -- now we need to check content of bucket $BUCKET_TO_UPLOAD_TO
 
-aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
+aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 ls "s3://%BUCKET_TO_UPLOAD_TO%"
 
 
 ```
