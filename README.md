@@ -97,7 +97,7 @@ aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 mb s3://$BUCKET_TO_UPLOAD_TO || ex
 ```
   * Windows 10+ : 
 ```bash
-set NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+set NOM_DOSSIER_CLOUD=C:\Users\shamanvince\Desktop\vinsecloud
 set NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
 set NO_PORT_RESEAU_OSS_S3RVER=8003
 set BUCKET_TO_UPLOAD_TO=cloudvinse
@@ -105,7 +105,7 @@ set URL_APPEL_API_ENDPOINT=http://$NOM_HOTE_RESEAU_OSS_S3RVER:$NO_PORT_RESEAU_OS
 
 
 aws s3 ls --endpoint-url=%URL_APPEL_API_ENDPOINT%
-echo "creation deu 'bucket' [%BUCKET_TO_UPLOAD_TO%] "
+echo "creation du 'bucket' [%BUCKET_TO_UPLOAD_TO%] "
 aws --endpoint-url=%URL_APPEL_API_ENDPOINT% s3 mb s3://%BUCKET_TO_UPLOAD_TO% || exit 1
 
 ```
@@ -164,7 +164,7 @@ aws --endpoint-url=$URL_APPEL_API_ENDPOINT s3 ls "s3://$BUCKET_TO_UPLOAD_TO"
 
   * Windows 10+ : 
 ```bash
-set NOM_DOSSIER_CLOUD=./vinse-in-ze-cloud
+set NOM_DOSSIER_CLOUD=C:\Users\shamanvince\Desktop\vinsecloud
 set NOM_HOTE_RESEAU_OSS_S3RVER=192.168.1.22
 set NO_PORT_RESEAU_OSS_S3RVER=8003
 set BUCKET_TO_UPLOAD_TO=cloudvinse
