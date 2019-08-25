@@ -52,20 +52,16 @@ aws version
 
 * Installation Windows 10 : passer par l'installation de python, pip, et installer avec un pip install, cf. https://docs.aws.amazon.com/cli/latest/userguide/install-windows.html#awscli-install-windows-pip
 
-```bash
-# TODO
-
-```
-* avec chocolatey, installer python 3 : 
-
 ```MSDOS
 set PYHTON_INSTALLATION_HOME=C:\Users\%username%\.cloudieow\python3
 mkdir %PYHTON_INSTALLATION_HOME%
 REM cd %PYHTON_INSTALLATION_HOME%
 choco install python3 --params "/InstallDir:%PYHTON_INSTALLATION_HOME%"
 dir %PYHTON_INSTALLATION_HOME%
-pip install awscli==1.16.14
-
+py -m pip install awscli==1.16.14
+choco uninstall awscli
+choco install awscli --version=1.16.14
+echo "Fermez la fenêtre de shell MSDOS, et ouvrez en une nouvelle"
 ```
 
 ### Configuration
