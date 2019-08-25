@@ -59,8 +59,11 @@ aws version
 * avec chocolatey, installer python 3 : 
 
 ```MSDOS
-set PYHTON_INSTALLATION_HOME=C:\your\install\path
+set PYHTON_INSTALLATION_HOME=C:\Users\%username%\.cloudieow\python3
+mkdir %PYHTON_INSTALLATION_HOME%
+REM cd %PYHTON_INSTALLATION_HOME%
 choco install python3 --params "/InstallDir:%PYHTON_INSTALLATION_HOME%"
+dir %PYHTON_INSTALLATION_HOME%
 pip install awscli==1.16.14
 
 ```
